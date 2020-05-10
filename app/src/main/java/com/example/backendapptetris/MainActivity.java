@@ -1,63 +1,88 @@
 package com.example.backendapptetris;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.example.backendapptetris.REST.JavalinApi;
+import com.example.backendapptetris.REST.Post;
 
-import java.util.HashMap;
-import java.util.Map;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "MainActivity";
-    private static final String KEY_NAVN = "navn";
-    private static final String KEY_SCORE = "score";
-
-    private Button button;
-    private TextView textView;
-    private EditText editText;
-
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private String studienr, password, userFirstName;
+    private EditText userNameEditText, passwordEditText;
+    private Button loginButton;
+    private JavalinApi javalinApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        button = findViewById(R.id.button);
-        textView = findViewById(R.id.textView);
-        editText = findViewById(R.id.editText);
+        userNameEditText = findViewById(R.id.userNameEditText);
+        passwordEditText = findViewById(R.id.passwordEditText);
+        loginButton = findViewById(R.id.loginButton);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .baseUrl("http://18.219.143.210:8080/")
+                .build();
+
+        javalinApi = retrofit.create(JavalinApi.class);
+
+
 
     }
 
-    public void saveNote(View v) {
-        String navn = editText.getText().toString();
-        Map<String, Object> score = new HashMap<>();
-        score.put(KEY_NAVN, navn);
-        score.put(KEY_SCORE, "1234");
-        db.collection("Highscores").document("Foerste Bruger").set(score)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(MainActivity.this, "Score gemt.", Toast.LENGTH_SHORT).show();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
+    public void login(View v){
+        //TODO: login autorisation kode
+
+        studienr = userNameEditText.getText().toString();
+        password = passwordEditText.getText().toString();
+
+        createPost(studienr, password);
+    }
+
+    private void createPost(String studienr, String password){
+
+        Call<String> call = javalinApi.createPost(studienr, password);
+
+        call.enqueue(new Callback<String>() {
             @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(MainActivity.this, "Fejl", Toast.LENGTH_SHORT).show();
-                Log.d(TAG, e.toString());
+            public void onResponse(Call<String> call, Response<String> response) {
+
+                if (response.isSuccessful()){
+                    userFirstName = response.body();
+                    launchTetris();
+                } else {
+                    Toast.makeText(MainActivity.this, "Forkert brugernavn eller adgangskode", Toast.LENGTH_LONG).show();
+                    System.out.println("Responskode: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
             }
         });
+    }
+
+    private void launchTetris(){
+        Intent intent = new Intent(this, TetrisActivity.class);
+        intent.putExtra("studienr", studienr);
+        intent.putExtra("navn", userFirstName);
+        startActivity(intent);
+        finish();
     }
 }
