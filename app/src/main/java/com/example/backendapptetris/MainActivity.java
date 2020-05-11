@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.backendapptetris.REST.JavalinApi;
-import com.example.backendapptetris.REST.Post;
+import com.example.backendapptetris.game.GameMain;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (response.isSuccessful()){
                     userFirstName = response.body();
-                    launchTetris();
+                    launchGame();
                 } else {
                     Toast.makeText(MainActivity.this, "Forkert brugernavn eller adgangskode", Toast.LENGTH_LONG).show();
                     System.out.println("Responskode: " + response.code());
@@ -75,8 +75,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void launchTetris(){
-        Intent intent = new Intent(this, TetrisActivity.class);
+    private void launchGame(){
+        Intent intent = new Intent(this, GameMain.class);
         intent.putExtra("studienr", studienr);
         intent.putExtra("navn", userFirstName);
         startActivity(intent);

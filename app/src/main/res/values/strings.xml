@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">BackendAppTetris</string>
+    <string name="shoot_some_birds">Shoot some birds!</string>
+    <string name="play">Spil</string>
 </resources>

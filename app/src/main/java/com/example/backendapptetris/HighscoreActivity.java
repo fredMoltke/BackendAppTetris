@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.backendapptetris.game.GameMain;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -26,8 +27,9 @@ public class HighscoreActivity extends AppCompatActivity {
     private static final String KEY_SCORE = "score";
 
     private Button playAgain, saveScore, logOut;
-    private TextView gameOver, playerScore;
+    private TextView gameOver, playerScoreTextView;
     private String studienr, userFirstName;
+    private int playerScore;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -39,14 +41,16 @@ public class HighscoreActivity extends AppCompatActivity {
         playAgain = findViewById(R.id.playAgainButton);
         saveScore = findViewById(R.id.saveScoreButton);
         gameOver = findViewById(R.id.gameOverText);
-        playerScore = findViewById(R.id.playerScoreText);
+        playerScoreTextView = findViewById(R.id.playerScoreText);
         logOut = findViewById(R.id.logOutButton);
 
         // Henter spiller data fra intents, skal bruge studienr og navn til databasen
         Intent intent = getIntent();
         studienr = intent.getStringExtra("studienr");
         userFirstName = intent.getStringExtra("navn");
+        playerScore = intent.getIntExtra("score", 0);
 
+        playerScoreTextView.setText("Score: " + playerScore);
 
     }
 
@@ -56,7 +60,7 @@ public class HighscoreActivity extends AppCompatActivity {
         // Opretter Firebase dokument med brugerens studienr som ID
         Map<String, Object> score = new HashMap<>();
         score.put(KEY_NAVN, userFirstName);
-        score.put(KEY_SCORE, "3234");
+        score.put(KEY_SCORE, playerScore);
         db.collection("Highscores").document(studienr).set(score)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
 
@@ -76,7 +80,7 @@ public class HighscoreActivity extends AppCompatActivity {
         });
     }
     public void playAgain(View v){
-        Intent intent = new Intent(this, TetrisActivity.class);
+        Intent intent = new Intent(this, GameMain.class);
         intent.putExtra("studienr", studienr);
         intent.putExtra("navn", userFirstName);
         startActivity(intent);
