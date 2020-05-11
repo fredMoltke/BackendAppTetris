@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HighscoreActivity">
+    tools:context=".game.HighscoreActivity">
 
     <TextView
         android:id="@+id/gameOverText"
@@ -127,7 +127,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
         app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
         app:layout_constraintTop_toBottomOf="@+id/playerScoreText"
-        app:srcCompat="@drawable/tetrisfalling" />
+        app:srcCompat="@drawable/dead" />
 
     <Button
         android:id="@+id/logOutButton"

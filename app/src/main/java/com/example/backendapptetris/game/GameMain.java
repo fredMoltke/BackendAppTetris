@@ -3,7 +3,6 @@ package com.example.backendapptetris.game;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -43,9 +42,6 @@ public class GameMain extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        TextView highScoreTxt = findViewById(R.id.highScoreTxt);
-        highScoreTxt.setText("HighScore: 0");
 
     }
 }

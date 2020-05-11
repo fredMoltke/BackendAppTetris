@@ -1,4 +1,4 @@
-package com.example.backendapptetris;
+package com.example.backendapptetris.game;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,11 +8,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.backendapptetris.game.GameMain;
+import com.example.backendapptetris.MainActivity;
+import com.example.backendapptetris.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,7 +29,7 @@ public class HighscoreActivity extends AppCompatActivity {
     private Button playAgain, saveScore, logOut;
     private TextView gameOver, playerScoreTextView;
     private String studienr, userFirstName;
-    private int playerScore;
+    private Integer playerScore;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -60,7 +60,8 @@ public class HighscoreActivity extends AppCompatActivity {
         // Opretter Firebase dokument med brugerens studienr som ID
         Map<String, Object> score = new HashMap<>();
         score.put(KEY_NAVN, userFirstName);
-        score.put(KEY_SCORE, playerScore);
+        String scoreString = playerScore.toString();
+        score.put(KEY_SCORE, scoreString);
         db.collection("Highscores").document(studienr).set(score)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
 
