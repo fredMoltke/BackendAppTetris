@@ -10,20 +10,19 @@
         android:id="@+id/gameOverText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:text="Game Over!"
         android:textColor="@color/colorRed"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineTop" />
 
     <TextView
         android:id="@+id/playerScoreText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="Din score: 2500"
         android:textColor="@color/colorLightBlue"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,17 +31,15 @@
 
     <Button
         android:id="@+id/playAgainButton"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
         android:background="@color/colorGreen"
         android:onClick="playAgain"
         android:text="Spil Igen"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/logOutButton"
-        app:layout_constraintEnd_toEndOf="@+id/saveScoreButton"
-        app:layout_constraintStart_toStartOf="@+id/saveScoreButton"
-        app:layout_constraintTop_toTopOf="@+id/guideButtonThreeStart" />
+        app:layout_constraintBottom_toTopOf="@+id/guideButtonOneEnd"
+        app:layout_constraintStart_toStartOf="@+id/guidelineMiddleRight"
+        app:layout_constraintTop_toTopOf="@+id/guideButtonOneStart" />
 
     <Button
         android:id="@+id/saveScoreButton"
@@ -53,10 +50,10 @@
         android:padding="8sp"
         android:text="Gem Highscore"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideButtonOneEnd"
+        app:layout_constraintBottom_toTopOf="@+id/guideButtonTwoEnd"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideButtonOneStart" />
+        app:layout_constraintTop_toTopOf="@+id/guideButtonTwoStart" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineMiddle"
@@ -64,6 +61,20 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineMiddleLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.48" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineMiddleRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.52" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineLeft"
@@ -84,50 +95,35 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.91" />
+        app:layout_constraintGuide_percent="0.88" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideButtonOneEnd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.97" />
+        app:layout_constraintGuide_percent="0.94" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideButtonTwoStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.84" />
+        app:layout_constraintGuide_percent="0.80" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideButtonTwoEnd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.90" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideButtonThreeStart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.77" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideButtonThreeEnd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.83" />
+        app:layout_constraintGuide_percent="0.86" />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/playAgainButton"
+        app:layout_constraintBottom_toTopOf="@+id/guideButtonTwoStart"
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
         app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
         app:layout_constraintTop_toBottomOf="@+id/playerScoreText"
@@ -135,14 +131,20 @@
 
     <Button
         android:id="@+id/logOutButton"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
         android:background="@color/colorRed"
         android:text="Log Ud"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/saveScoreButton"
-        app:layout_constraintEnd_toEndOf="@+id/saveScoreButton"
-        app:layout_constraintStart_toStartOf="@+id/saveScoreButton"
-        app:layout_constraintTop_toTopOf="@+id/guideButtonTwoStart" />
+        android:onClick="logOut"
+        app:layout_constraintBottom_toTopOf="@+id/guideButtonOneEnd"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineMiddleLeft"
+        app:layout_constraintTop_toTopOf="@+id/guideButtonOneStart" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.05" />
 </androidx.constraintlayout.widget.ConstraintLayout>

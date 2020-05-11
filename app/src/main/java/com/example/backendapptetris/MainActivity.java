@@ -15,7 +15,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
@@ -46,8 +45,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void login(View v){
-        //TODO: login autorisation kode
-
         studienr = userNameEditText.getText().toString();
         password = passwordEditText.getText().toString();
 
