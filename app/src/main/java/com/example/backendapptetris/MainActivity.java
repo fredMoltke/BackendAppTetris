@@ -9,20 +9,22 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.backendapptetris.REST.JavalinApi;
+import com.example.backendapptetris.data.Bruger;
+import com.example.backendapptetris.data.Spiller;
 import com.example.backendapptetris.game.GameMain;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
     private String studienr, password, userFirstName;
     private EditText userNameEditText, passwordEditText;
     private Button loginButton;
-    private JavalinApi javalinApi;
+    public static JavalinApi javalinApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.loginButton);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl("http://18.219.143.210:8080/")
                 .build();
 
@@ -52,25 +54,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createPost(String studienr, String password){
-
-        Call<String> call = javalinApi.createPost(studienr, password);
-
-        call.enqueue(new Callback<String>() {
+        Spiller spiller = new Spiller(studienr, password, "");
+        spiller.setFornavn("");
+        Call<Bruger> call = javalinApi.login(spiller);
+        call.enqueue(new Callback<Bruger>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-
+            public void onResponse(Call<Bruger> call, Response<Bruger> response) {
                 if (response.isSuccessful()){
-                    userFirstName = response.body();
+                    Bruger bruger = response.body();
+                    if (bruger != null){
+                        userFirstName = bruger.fornavn;
+                    } else {
+                        Toast.makeText(MainActivity.this, "Fejl: kunne ikke hente bruger info", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     launchGame();
                 } else {
                     Toast.makeText(MainActivity.this, "Forkert brugernavn eller adgangskode", Toast.LENGTH_LONG).show();
                     System.out.println("Responskode: " + response.code());
                 }
             }
-
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
-
+            public void onFailure(Call<Bruger> call, Throwable t) {
             }
         });
     }
